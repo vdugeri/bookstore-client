@@ -1,10 +1,8 @@
 import { useMutation } from "@apollo/client";
 import {
-  Box,
   Button,
   FormControl,
   FormLabel,
-  Heading,
   Input,
   Modal,
   ModalBody,
@@ -17,7 +15,6 @@ import {
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { BookRequest, BookResponse } from "../types/BookRequest";
-import { BookForm } from "./BookForm";
 import { EDIT_BOOK, GET_BOOKS } from "./queries";
 
 interface EditBookProps {
@@ -56,7 +53,7 @@ export const EditBook: React.FC<EditBookProps> = ({
     editedBook: BookResponse
   ): BookResponse[] {
     const filteredBooks = books.filter((book) => book.id !== editedBook.id);
-    return [...filteredBooks, editedBook]
+    return [...filteredBooks, editedBook];
   }
 
   async function handleSubmit() {

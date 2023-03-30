@@ -2,20 +2,19 @@ import React, { useState } from "react";
 import {
   Button,
   Center,
-  Container,
   Flex,
   SimpleGrid,
   Spacer,
   Spinner,
 } from "@chakra-ui/react";
 import { BookForm } from "./BookForm";
-import { BookRequest, BookResponse } from "../types/BookRequest";
+import {  BookResponse } from "../types/BookRequest";
 import { BookItem } from "./BookItem";
-import { useMutation, useQuery } from "@apollo/client";
-import { DELETE_BOOK, GET_BOOKS } from "./queries";
+import {  useQuery } from "@apollo/client";
+import {  GET_BOOKS } from "./queries";
 
 export const BookList: React.FC = () => {
-  const { data, loading, error } = useQuery<{ books: BookResponse[] }>(
+  const { data, loading } = useQuery<{ books: BookResponse[] }>(
     GET_BOOKS
   );
 
