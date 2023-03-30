@@ -30,7 +30,10 @@ export const DELETE_BOOK = gql`
 
 export const EDIT_BOOK = gql`
   mutation EditBook($id: ID!, $name: String!, $description: String!) {
-    editBook(id: $id, name: $name, description: $description) {
+    editBook(
+      idArgs: { id: $id }
+      bookRequest: { name: $name, description: $description }
+    ) {
       id
       name
       description

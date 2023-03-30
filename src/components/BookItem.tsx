@@ -9,7 +9,9 @@ import {
   SimpleGrid,
   Text,
 } from "@chakra-ui/react";
-import { BookRequest, BookResponse } from "../types/BookRequest";
+import { useState } from "react";
+import { BookResponse } from "../types/BookRequest";
+import { EditBook } from "./EditBookForm";
 import { DELETE_BOOK, GET_BOOKS } from "./queries";
 
 interface BookItemProps {
@@ -17,6 +19,8 @@ interface BookItemProps {
 }
 
 export const BookItem: React.FC<BookItemProps> = ({ book }: BookItemProps) => {
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+
   const [deleteBook] = useMutation(DELETE_BOOK, {
     update(cache, { data: { removeBook } }) {
       const existingBooks = cache.readQuery<{ books: BookResponse[] }>({
@@ -47,19 +51,24 @@ export const BookItem: React.FC<BookItemProps> = ({ book }: BookItemProps) => {
   }
 
   return (
-    <Card p={4} marginTop={5}>
-      <CardHeader flexWrap="wrap">
-        <Heading size="xl">{book.name}</Heading>
-      </CardHeader>
-      <CardBody>
-        <Text pt={1}>{book.description}</Text>
-      </CardBody>
-      <CardFooter>
-        <SimpleGrid columns={2} spacing={2}>
-          <Button colorScheme="blue">Edit</Button>
-          <Button onClick={() => handleDelete(book.id)}>Delete</Button>
-        </SimpleGrid>
-      </CardFooter>
-    </Card>
+    <>
+      <Card p={4} marginTop={5}>
+        <CardHeader flexWrap="wrap">
+          <Heading size="xl">{book.name}</Heading>
+        </CardHeader>
+        <CardBody>
+          <Text pt={1}>{book.description}</Text>
+        </CardBody>
+        <CardFooter>
+          <SimpleGrid columns={2} spacing={2}>
+            <Button colorScheme="blue" onClick={() => setIsOpen(true)}>
+              Edit
+            </Button>
+            <Button onClick={() => handleDelete(book.id)}>Delete</Button>
+          </SimpleGrid>
+        </CardFooter>
+      </Card>
+      <EditBook book={book} isOpen={isOpen} onClose={() => setIsOpen(false)} />
+    </>
   );
 };

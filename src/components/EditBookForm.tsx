@@ -45,16 +45,24 @@ export const EditBook: React.FC<EditBookProps> = ({
       if (existingBooks) {
         cache.writeQuery({
           query: GET_BOOKS,
-          data: { books: [...existingBooks.books, editBook] },
+          data: { books: updateBooks(existingBooks.books, editBook) },
         });
       }
     },
   });
 
+  function updateBooks(
+    books: BookResponse[],
+    editedBook: BookResponse
+  ): BookResponse[] {
+    const filteredBooks = books.filter((book) => book.id !== editedBook.id);
+    return [...filteredBooks, editedBook]
+  }
+
   async function handleSubmit() {
     try {
       await updateBook({
-        variables: { ...book },
+        variables: { ...editBook },
       });
       onClose();
       setEditBook({});
@@ -78,7 +86,7 @@ export const EditBook: React.FC<EditBookProps> = ({
               onChange={(event) =>
                 setEditBook({ ...editBook, name: event.target.value })
               }
-              value={book?.name}
+              value={editBook.name}
             />
           </FormControl>
 
@@ -90,7 +98,7 @@ export const EditBook: React.FC<EditBookProps> = ({
               onChange={(event) =>
                 setEditBook({ ...editBook, description: event.target.value })
               }
-              value={book?.description}
+              value={editBook.description}
             />
           </FormControl>
         </ModalBody>
