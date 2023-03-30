@@ -1,8 +1,10 @@
 import { useMutation } from "@apollo/client";
 import {
+  Box,
   Button,
   FormControl,
   FormLabel,
+  Heading,
   Input,
   Modal,
   ModalBody,
@@ -15,28 +17,35 @@ import {
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { BookRequest, BookResponse } from "../types/BookRequest";
-import { ADD_BOOK, GET_BOOKS } from "./queries";
+import { BookForm } from "./BookForm";
+import { EDIT_BOOK, GET_BOOKS } from "./queries";
 
-interface BookFormProps {
+interface EditBookProps {
+  book: BookResponse;
   isOpen: boolean;
   onClose: () => void;
 }
 
-export const BookForm: React.FC<BookFormProps> = ({
+export const EditBook: React.FC<EditBookProps> = ({
+  book,
   isOpen,
   onClose,
-}: BookFormProps) => {
-  const [book, setBook] = useState<BookRequest>();
+}: EditBookProps) => {
+  const [editBook, setEditBook] = useState<BookRequest>({
+    id: book.id,
+    name: book.name,
+    description: book.description,
+  });
 
-  const [addBook] = useMutation(ADD_BOOK, {
-    update(cache, { data: { addBook } }) {
+  const [updateBook] = useMutation(EDIT_BOOK, {
+    update(cache, { data: { editBook } }) {
       const existingBooks = cache.readQuery<{ books: BookResponse[] }>({
         query: GET_BOOKS,
       });
       if (existingBooks) {
         cache.writeQuery({
           query: GET_BOOKS,
-          data: { books: [...existingBooks.books, addBook] },
+          data: { books: [...existingBooks.books, editBook] },
         });
       }
     },
@@ -44,11 +53,11 @@ export const BookForm: React.FC<BookFormProps> = ({
 
   async function handleSubmit() {
     try {
-      await addBook({
+      await updateBook({
         variables: { ...book },
       });
       onClose();
-      setBook({});
+      setEditBook({});
     } catch (error) {
       console.error(error);
     }
@@ -67,7 +76,7 @@ export const BookForm: React.FC<BookFormProps> = ({
               placeholder="Book name"
               name="name"
               onChange={(event) =>
-                setBook({ ...book, name: event.target.value })
+                setEditBook({ ...editBook, name: event.target.value })
               }
               value={book?.name}
             />
@@ -79,7 +88,7 @@ export const BookForm: React.FC<BookFormProps> = ({
               placeholder="Book Description"
               name="description"
               onChange={(event) =>
-                setBook({ ...book, description: event.target.value })
+                setEditBook({ ...editBook, description: event.target.value })
               }
               value={book?.description}
             />
