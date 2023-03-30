@@ -7,9 +7,9 @@ import {ChakraProvider} from "@chakra-ui/react";
 import {ApolloClient, ApolloProvider, InMemoryCache} from "@apollo/client";
 
 const client = new ApolloClient({
-  uri: 'http://localhost:3000/graphql',
-  cache: new InMemoryCache()
-})
+  uri: "https://scrapays-bookstore.herokuapp.com/graphql",
+  cache: new InMemoryCache(),
+});
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
