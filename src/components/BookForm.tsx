@@ -26,7 +26,10 @@ export const BookForm: React.FC<BookFormProps> = ({
   isOpen,
   onClose,
 }: BookFormProps) => {
-  const [book, setBook] = useState<BookRequest>();
+  const [book, setBook] = useState<BookRequest>({
+    name: "",
+    description: "",
+  });
 
   const [addBook] = useMutation(ADD_BOOK, {
     update(cache, { data: { addBook } }) {
@@ -69,7 +72,7 @@ export const BookForm: React.FC<BookFormProps> = ({
               onChange={(event) =>
                 setBook({ ...book, name: event.target.value })
               }
-              value={book?.name}
+              value={book.name}
             />
           </FormControl>
 
@@ -81,7 +84,7 @@ export const BookForm: React.FC<BookFormProps> = ({
               onChange={(event) =>
                 setBook({ ...book, description: event.target.value })
               }
-              value={book?.description}
+              value={book.description}
             />
           </FormControl>
         </ModalBody>
