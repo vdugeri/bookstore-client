@@ -17,7 +17,7 @@ function App() {
     if (isAuthenticated) {
       fetchToken().catch((error) => console.log(error));
     }
-  }, [user?.email]);
+  }, [user?.email, getAccessTokenSilently, isAuthenticated]);
 
   return (
     <Flex direction="column">
