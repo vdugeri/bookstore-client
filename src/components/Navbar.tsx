@@ -2,6 +2,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import {
   Avatar,
   Box,
+  Button,
   Flex,
   Link,
   Popover,
@@ -12,7 +13,7 @@ import {
 } from "@chakra-ui/react";
 
 export const Navbar: React.FC = () => {
-  const { logout, user, isAuthenticated } = useAuth0();
+  const { logout, user, isAuthenticated, loginWithRedirect } = useAuth0();
 
   return (
     <Box p="4" borderBottom="1px solid #ccc">
@@ -45,6 +46,15 @@ export const Navbar: React.FC = () => {
               </PopoverContent>
             </Popover>
           </Flex>
+        )}
+        {!isAuthenticated && (
+          <Button
+            alignSelf="flex-end"
+            colorScheme="blue"
+            onClick={() => loginWithRedirect()}
+          >
+            Sign In
+          </Button>
         )}
       </Flex>
     </Box>
