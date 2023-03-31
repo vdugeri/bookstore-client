@@ -1,26 +1,31 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
-import {ChakraProvider} from "@chakra-ui/react";
-import {ApolloClient, ApolloProvider, InMemoryCache} from "@apollo/client";
-
-const client = new ApolloClient({
-  uri: "https://scrapays-bookstore.herokuapp.com/graphql",
-  cache: new InMemoryCache(),
-});
+import React from "react";
+import ReactDOM from "react-dom/client";
+import "./index.css";
+import App from "./App";
+import reportWebVitals from "./reportWebVitals";
+import { ChakraProvider } from "@chakra-ui/react";
+import { ApolloProvider } from "@apollo/client";
+import { Auth0Provider } from "@auth0/auth0-react";
+import { config } from "./config/config";
+import { client } from "./config/apolloConfig";
 
 const root = ReactDOM.createRoot(
-  document.getElementById('root') as HTMLElement
+  document.getElementById("root") as HTMLElement
 );
+
 root.render(
   <React.StrictMode>
-    <ApolloProvider client={client}>
-      <ChakraProvider>
-        <App/>
-      </ChakraProvider>
-    </ApolloProvider>
+    <Auth0Provider
+      domain={config.domain}
+      clientId={config.clientId}
+      authorizationParams={config.authorizationParams}
+    >
+      <ApolloProvider client={client}>
+        <ChakraProvider>
+          <App />
+        </ChakraProvider>
+      </ApolloProvider>
+    </Auth0Provider>
   </React.StrictMode>
 );
 
