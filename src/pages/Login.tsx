@@ -1,19 +1,9 @@
-import {
-  Button,
-  Container,
-  defineStyle,
-  defineStyleConfig,
-  Flex,
-  FormControl,
-  FormLabel,
-  Heading,
-  Input,
-  Link,
-  Text,
-} from "@chakra-ui/react";
+import { useAuth0 } from "@auth0/auth0-react";
+import { Button, Flex, Link } from "@chakra-ui/react";
 
 export const Login: React.FC = () => {
-  function handleSubmit() {}
+  const { loginWithRedirect, isAuthenticated, getAccessTokenSilently } =
+    useAuth0();
 
   return (
     <Flex
@@ -23,29 +13,19 @@ export const Login: React.FC = () => {
       width="100%"
       direction="column"
     >
-      <Heading size="md">Log In</Heading>
-      <FormControl width="40%" mt="40px">
-        <FormLabel>Email</FormLabel>
-        <Input type="text" name="email" placeholder="email" />
-      </FormControl>
-      <FormControl mt={4} width="40%">
-        <FormLabel>Password</FormLabel>
-        <Input type="password" name="password" placeholder="password" />
-      </FormControl>
-      <FormControl mt={4} width="40%">
+      {!isAuthenticated && (
         <Flex alignItems="center">
-          <Button alignSelf="flex-end" colorScheme="blue">
+          <Button
+            alignSelf="flex-end"
+            colorScheme="blue"
+            onClick={() => loginWithRedirect()}
+          >
             Sign In
           </Button>
-          <Text ml={2}>
-            Don't have an account?
-            <Link href="/signup" colorScheme="blue" color="blue">
-              {" "}
-              Sign Up
-            </Link>
-          </Text>
         </Flex>
-      </FormControl>
+      )}
+
+      {isAuthenticated && <Link href="/books">Books</Link>}
     </Flex>
   );
 };

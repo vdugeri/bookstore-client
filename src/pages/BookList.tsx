@@ -12,8 +12,11 @@ import { BookResponse } from "../types/BookRequest";
 import { BookItem } from "../components/BookItem";
 import { useQuery } from "@apollo/client";
 import { GET_BOOKS } from "../components/queries";
+import { useAuth0 } from "@auth0/auth0-react";
 
 export const BookList: React.FC = () => {
+  const { getAccessTokenSilently } = useAuth0();
+
   const { data, loading } = useQuery<{ books: BookResponse[] }>(GET_BOOKS);
 
   const [isOpen, setIsOpen] = useState<boolean>(false);
