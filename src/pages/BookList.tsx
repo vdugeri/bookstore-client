@@ -17,7 +17,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 export const BookList: React.FC = () => {
   const { getAccessTokenSilently } = useAuth0();
 
-  const { data, loading } = useQuery<{ books: BookResponse[] }>(GET_BOOKS);
+  const { data, loading } = useQuery<{ books: BookResponse[] }>(GET_BOOKS, );
 
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
@@ -40,7 +40,7 @@ export const BookList: React.FC = () => {
   }
 
   return (
-    <Flex direction="column" p={20}>
+    <Flex direction="column" p={20} mt={10}>
       <Spacer />
       <Button
         alignSelf="end"
