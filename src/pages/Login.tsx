@@ -13,7 +13,7 @@ export const Login: React.FC = () => {
       direction="column"
     >
       {!isAuthenticated && (
-        <Flex alignItems="center">
+        <Flex alignItems="center" justifyContent="center">
           <Button
             alignSelf="flex-end"
             colorScheme="blue"
