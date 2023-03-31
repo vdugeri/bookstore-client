@@ -7,16 +7,14 @@ import {
   Spacer,
   Spinner,
 } from "@chakra-ui/react";
-import { BookForm } from "./BookForm";
-import {  BookResponse } from "../types/BookRequest";
-import { BookItem } from "./BookItem";
-import {  useQuery } from "@apollo/client";
-import {  GET_BOOKS } from "./queries";
+import { BookForm } from "../components/BookForm";
+import { BookResponse } from "../types/BookRequest";
+import { BookItem } from "../components/BookItem";
+import { useQuery } from "@apollo/client";
+import { GET_BOOKS } from "../components/queries";
 
 export const BookList: React.FC = () => {
-  const { data, loading } = useQuery<{ books: BookResponse[] }>(
-    GET_BOOKS
-  );
+  const { data, loading } = useQuery<{ books: BookResponse[] }>(GET_BOOKS);
 
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
@@ -39,7 +37,7 @@ export const BookList: React.FC = () => {
   }
 
   return (
-    <Flex direction="column">
+    <Flex direction="column" p={20}>
       <Spacer />
       <Button
         alignSelf="end"
